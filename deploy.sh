@@ -1,0 +1,1 @@
+docker stack deploy wiki --compose-file docker-compose.yaml

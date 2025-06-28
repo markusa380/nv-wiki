@@ -1,0 +1,74 @@
+services:
+  mediawiki:
+    image: nv-wiki
+    networks:
+      - servernet
+      - internal
+    depends_on:
+      - database
+    volumes:
+      - smw-config:/data/smw-config
+    secrets:
+      - wiki-password
+      - aws-credentials
+      - discord-auth-client-secret
+      - discord-auth-bot-token
+      - wg-secret
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=servernet"
+      - "traefik.http.routers.mediawiki.rule=Host(`nv-intl.com`) || Host(`www.nv-intl.com`)"
+      - "traefik.http.services.mediawiki.loadbalancer.server.port=80"
+      - "traefik.http.routers.mediawiki.entrypoints=websecure"
+      - "traefik.http.routers.mediawiki.tls.certresolver=myresolver"
+  database:
+    image: mariadb
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - internal
+  database-backup:
+    image: nv-wiki-db-backup
+    depends_on:
+      - database
+    networks:
+      - internal
+    environment:
+      - AWS_SHARED_CREDENTIALS_FILE=/run/secrets/database-backup-aws-credentials
+    secrets:
+      - database-backup-aws-credentials
+      - wiki-password
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 24h
+
+volumes:
+  db:
+  smw-config:
+
+networks:
+  internal:
+    driver: overlay
+  servernet:
+    external: true
+
+secrets:
+  database-backup-aws-credentials:
+    external: true
+    name: nv-wiki-db-backup-aws-credentials
+  wiki-password:
+    external: true
+    name: wiki-password
+  aws-credentials:
+    external: true
+    name: nv-wiki-aws-credentials
+  discord-auth-client-secret:
+    external: true
+    name: nv-wiki-discord-auth-client-secret
+  discord-auth-bot-token:
+    external: true
+    name: nv-wiki-discord-auth-bot-token
+  wg-secret:
+    external: true
+    name: nv-wiki-wg-secret

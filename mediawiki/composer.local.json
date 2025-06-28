@@ -1,0 +1,121 @@
+{
+  "require": {
+    "mediawiki/font-awesome": "2.0.0",
+    "mediawiki/native-svg-handler": "dev-master",
+    "mediawiki/semantic-media-wiki": "~4.1",
+    "edwardspec/mediawiki-aws-s3": "0.12.0",
+    "x-mediawiki/contributionscores": "1",
+    "x-mediawiki/discordauth": "2",
+    "x-mediawiki/hitcounters": "1",
+    "x-mediawiki/pluggableauth": "1",
+    "x-mediawiki/templatestyles": "2",
+    "x-mediawiki/uploadwizard": "2",
+    "x-mediawiki/wsoauth": "1"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/NativeSvgHandler.git"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/hitcounters",
+        "type": "mediawiki-extension",
+        "version": "1",
+        "source": {
+          "type": "git",
+          "url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/HitCounters.git",
+          "reference": "master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/uploadwizard",
+        "type": "mediawiki-extension",
+        "version": "2",
+        "source": {
+          "type": "git",
+          "url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/UploadWizard.git",
+          "reference": "REL1_40"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/contributionscores",
+        "type": "mediawiki-extension",
+        "version": "1",
+        "source": {
+          "type": "git",
+          "url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/ContributionScores.git",
+          "reference": "master"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/pluggableauth",
+        "type": "mediawiki-extension",
+        "version": "1",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/wikimedia/mediawiki-extensions-PluggableAuth.git",
+          "reference": "REL1_40"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/wsoauth",
+        "type": "mediawiki-extension",
+        "version": "1",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/wikimedia/mediawiki-extensions-WSOAuth.git",
+          "reference": "REL1_40"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/discordauth",
+        "type": "mediawiki-extension",
+        "version": "2",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/markusa380/mediawiki-DiscordAuth.git",
+          "reference": "REL1_40"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "x-mediawiki/templatestyles",
+        "type": "mediawiki-extension",
+        "version": "2",
+        "source": {
+          "type": "git",
+          "url": "https://gerrit.wikimedia.org/r/mediawiki/extensions/TemplateStyles.git",
+          "reference": "REL1_40"
+        }
+      }
+    }
+  ],
+  "extra": {
+    "merge-plugin": {
+      "include": [
+        "skins/*/composer.json",
+        "extensions/DiscordAuth/composer.json",
+        "extensions/TemplateStyles/composer.json"
+      ]
+    }
+  }
+}
