@@ -20,6 +20,9 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=servernet"
       - "traefik.http.routers.mediawiki.rule=Host(`nv-intl.com`) || Host(`www.nv-intl.com`)"
+      - "traefik.http.routers.mediawiki.middlewares=mediawiki-stripprefix"
+      # Backwards compatibility with old URLs
+      - "traefik.http.middlewares.mediawiki-stripprefix.stripprefix.prefixes=/wiki"
       - "traefik.http.services.mediawiki.loadbalancer.server.port=80"
       - "traefik.http.routers.mediawiki.entrypoints=websecure"
       - "traefik.http.routers.mediawiki.tls.certresolver=myresolver"
