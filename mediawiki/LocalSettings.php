@@ -93,6 +93,10 @@ $wgFileExtensions[] = 'svg';
 $wgFileExtensions[] = 'pdf';
 $wgSVGConverter = 'ImageMagick';
 
+# To avoid https://www.mediawiki.org/wiki/Manual:Common_errors_and_symptoms#Error_creating_thumbnail:_File_with_dimensions_greater_than_12.5_MP
+$wgMaxImageArea = 125000000;
+$wgThumbnailEpoch = 20250629180012;
+
 # InstantCommons allows wiki to use images from https://commons.wikimedia.org
 $wgUseInstantCommons = false;
 
