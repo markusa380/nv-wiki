@@ -66,8 +66,8 @@ $wgMetaNamespace = "Project";
 $wgScriptPath = "";
 
 ## The protocol and server name to use in fully-qualified URLs
-# $wgServer = "http://192.168.0.159:8082";
-$wgServer = "https://nv-intl.com";
+$wgServer = "http://192.168.0.159:8080";
+# $wgServer = "https://nv-intl.com";
 
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
