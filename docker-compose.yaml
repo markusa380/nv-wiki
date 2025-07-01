@@ -4,6 +4,7 @@ services:
     networks:
       - servernet
       - internal
+      - monitor-net
     depends_on:
       - database
     volumes:
