@@ -47,7 +47,7 @@ $wgMWLoggerDefaultSpi = [
             ],
         ],
         'formatters' => [
-            'line' => [ 'class' => \Itspire\MonologLoki\Formatter\LineFormatter::class ]
+            'line' => [ 'class' => \Itspire\MonologLoki\Formatter\LokiFormatter::class ]
         ]
     ] ]
 ];
