@@ -1,10 +1,55 @@
 <?php
-# See https://www.mediawiki.org/wiki/Manual:Configuration_settings
+ini_set( 'display_errors', 1 );
+ini_set( 'display_startup_errors', 1 );
+ini_set( 'log_errors', 'On' );
+ini_set( 'error_log', '/dev/stderr' );
+
+error_reporting( -1 );
+# https://www.mediawiki.org/wiki/Manual:Configuration_settings
 
 # Protect against web entry
 if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
+
+$wgMWLoggerDefaultSpi = [
+    'class' => '\\MediaWiki\\Logger\\MonologSpi',
+    'args' => [ [
+        'loggers' => [
+            '@default' => [
+                'processors' => [ 'wiki', 'psr' ],
+                'handlers' => [ 'loki' ]
+            ],
+            'rdbms' => [],
+            'objectcache' => [],
+            'SQLBagOStuff' => []
+        ],
+        'processors' => [
+            'wiki' => [ 'class' => '\\MediaWiki\\Logger\\Monolog\\WikiProcessor' ],
+            'psr' => [ 'class' => '\\Monolog\\Processor\\PsrLogMessageProcessor' ],
+        ],
+        'handlers' => [
+            'loki' => [
+                'class' => \Itspire\MonologLoki\Handler\LokiHandler::class,
+                'args' => [ [
+                    'entrypoint' => 'http://loki:3100',
+                    'context' => [],
+                    'labels' => [
+                        'app' => 'nv-wiki'
+                    ],
+                    'client_name' => 'nv-wiki',
+                ] ],
+                'formatter' => 'lokif'
+            ],
+        ],
+        'formatters' => [
+            'lokif' => [ 'class' => \Itspire\MonologLoki\Formatter\LokiFormatter::class ]
+        ]
+    ] ]
+];
+
+## Uncomment this to disable output compression
+# $wgDisableOutputCompression = true;
 
 $wgSitename = "Night Vision Wiki";
 $wgMetaNamespace = "Project";
@@ -17,7 +62,7 @@ $wgMetaNamespace = "Project";
 $wgScriptPath = "";
 
 ## The protocol and server name to use in fully-qualified URLs
-# $wgServer = "http://192.168.0.159:8082";
+# $wgServer = "http://192.168.0.159:8080";
 $wgServer = "https://nv-intl.com";
 
 ## The URL path to static resources (images, scripts, etc.)

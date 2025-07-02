@@ -10,7 +10,8 @@
     "x-mediawiki/pluggableauth": "1",
     "x-mediawiki/templatestyles": "2",
     "x-mediawiki/uploadwizard": "2",
-    "x-mediawiki/wsoauth": "1"
+    "x-mediawiki/wsoauth": "1",
+    "itspire/monolog-loki": "1.3.0"
   },
   "repositories": [
     {
