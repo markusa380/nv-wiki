@@ -237,3 +237,4 @@ $wgDiscordAllowAllUsers = true;
 
 $wgGroupPermissions['*']['edit'] = false;
 $wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['*']['autocreateaccount'] = true; 
