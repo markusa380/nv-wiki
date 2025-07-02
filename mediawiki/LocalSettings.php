@@ -1,10 +1,8 @@
 <?php
-ini_set( 'display_errors', 1 );
-ini_set( 'display_startup_errors', 1 );
+error_reporting( -1 );
 ini_set( 'log_errors', 'On' );
 ini_set( 'error_log', '/dev/stderr' );
 
-error_reporting( -1 );
 # https://www.mediawiki.org/wiki/Manual:Configuration_settings
 
 # Protect against web entry
