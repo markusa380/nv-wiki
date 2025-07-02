@@ -19,7 +19,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
+use Itspire\MonologLoki\Handler\LokiHandler;
+use Monolog\Handler\WhatFailureGroupHandler;
+use Monolog\Logger;
 
 $wgMWLoggerDefaultSpi = [
     'class' => '\\MediaWiki\\Logger\\MonologSpi',
@@ -27,7 +29,7 @@ $wgMWLoggerDefaultSpi = [
         'loggers' => [
             '@default' => [
                 'processors' => [ 'wiki', 'psr' ],
-                'handlers' => [ 'stream' ]
+                'handlers' => [ 'loki' ]
             ],
         ],
         'processors' => [
@@ -35,19 +37,20 @@ $wgMWLoggerDefaultSpi = [
             'psr' => [ 'class' => '\\Monolog\\Processor\\PsrLogMessageProcessor' ],
         ],
         'handlers' => [
-            'stream' => [
+            'loki' => [
                 'class' => \Itspire\MonologLoki\Handler\LokiHandler::class,
                 'args' => [
-                    'apiConfig' => [
-                        'entrypoint' => 'https://loki:3100',
-                        'client_name' => 'nv-wiki'
-                    ]
+                    'entrypoint' => 'http://loki:3100',
+                    'context' => [],
+                    'labels' => [],
+                    'client_name' => 'nv-wiki',
                 ],
                 'formatter' => 'line'
             ],
         ],
         'formatters' => [
-            'line' => [ 'class' => \Itspire\MonologLoki\Formatter\LokiFormatter::class ]
+            # 'line' => [ 'class' => \Itspire\MonologLoki\Formatter\LokiFormatter::class ]
+            'line' => [ 'class' => '\\Monolog\\Formatter\\LineFormatter' ]
         ]
     ] ]
 ];

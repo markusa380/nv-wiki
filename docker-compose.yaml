@@ -27,19 +27,6 @@ services:
       - "traefik.http.services.mediawiki.loadbalancer.server.port=80"
       - "traefik.http.routers.mediawiki.entrypoints=websecure"
       - "traefik.http.routers.mediawiki.tls.certresolver=myresolver"
-  mediawiki-test:
-    image: nv-wiki-test
-    networks:
-      - internal
-      - monitor-net
-    secrets:
-      - wiki-password
-      - aws-credentials
-      - discord-auth-client-secret
-      - discord-auth-bot-token
-      - wg-secret
-    ports:
-      - "8080:80"
   database:
     image: mariadb
     volumes:
