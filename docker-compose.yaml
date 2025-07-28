@@ -1,6 +1,13 @@
+version: '3.8'
+
 services:
   mediawiki:
     image: nv-wiki
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2GiB
     networks:
       - servernet
       - internal
