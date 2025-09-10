@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.mediawiki.entrypoints=websecure"
       - "traefik.http.routers.mediawiki.tls.certresolver=myresolver"
   database:
-    image: mariadb
+    image: mariadb:11.8
     volumes:
       - db:/var/lib/mysql
     networks:
