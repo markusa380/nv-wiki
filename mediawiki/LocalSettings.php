@@ -161,7 +161,6 @@ wfLoadExtension( 'ContributionScores' );
 wfLoadExtension( 'PdfHandler' );
 wfLoadExtension( 'Nuke' );
 
-enableSemantics( 'nv-intl.com' );
 $smwgConfigFileDir = "/data/smw-config";
 
 $awsCredentialsFileContent = file_get_contents( '/run/secrets/aws-credentials' );

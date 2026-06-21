@@ -1,4 +1,4 @@
-FROM mediawiki:1.40
+FROM mediawiki:1.45
 
 RUN apt-get update && \
   apt-get install -y curl unzip && \
@@ -20,3 +20,7 @@ RUN mv /var/www/html/extensions/Wsoauth /var/www/html/extensions/WSOAuth
 RUN composer update --no-dev
 
 COPY mediawiki /var/www/html
+
+# Run the schema update on startup before handing off to Apache.
+ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
+CMD ["apache2-foreground"]
