@@ -22,5 +22,6 @@ RUN composer update --no-dev
 COPY mediawiki /var/www/html
 
 # Run the schema update on startup before handing off to Apache.
+RUN chmod +x /var/www/html/docker-entrypoint.sh
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
