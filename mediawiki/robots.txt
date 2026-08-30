@@ -1,0 +1,20 @@
+# Articles are served in path form (/index.php/Name), so blocking the query
+# form costs no crawlable content. The /wiki duplicates cover the legacy
+# prefix that Traefik strips.
+
+User-agent: *
+
+Disallow: /index.php?
+Disallow: /index.php/Special:
+Disallow: /wiki/index.php?
+Disallow: /wiki/index.php/Special:
+Disallow: /api.php
+Disallow: /rest.php
+Disallow: /wiki/api.php
+Disallow: /wiki/rest.php
+Disallow: /mw-config/
+
+# Ignored by Google and Apple.
+Crawl-delay: 10
+
+# /load.php stays crawlable: it serves the CSS and JS needed to render pages.
