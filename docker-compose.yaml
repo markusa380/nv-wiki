@@ -34,6 +34,12 @@ services:
       - "traefik.http.services.mediawiki.loadbalancer.server.port=80"
       - "traefik.http.routers.mediawiki.entrypoints=websecure"
       - "traefik.http.routers.mediawiki.tls.certresolver=myresolver"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "127.0.0.1:80/index.php/Special:BlankPage"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
   database:
     image: mariadb:11.8
     volumes:
