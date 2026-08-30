@@ -15,3 +15,24 @@
         * with `websecure` entrypoint on port 443
         * with `myresolver` certificate resolver
 * All secrets configured (see [docker-compose.yaml](./docker-compose.yaml)).
+
+## Debugging
+
+This is not a full list of debugging tools, it needs further elaboration.
+
+### Apache status
+
+```sh
+docker exec $(docker ps --filter name=wiki_mediawiki -q) curl -s 127.0.0.1:80/server-status
+```
+
+`mod_status` is restricted to `Require local`, so it is only reachable from
+inside the container. Append `?auto` for a machine-readable summary.
+
+Useful when the wiki is unreachable while Docker still reports the container
+as running.
+
+`BusyWorkers` and `IdleWorkers` show whether the worker pool is exhausted. The
+per-worker table's `SS` column gives seconds spent in the current request; for
+reference, warm page loads measure around 0.2-0.9s, so large values there mark
+requests that are not progressing.
