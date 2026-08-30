@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
 MYSQL_HOST=database
 MYSQL_USER=wiki
