@@ -23,6 +23,7 @@ COPY mediawiki /var/www/html
 
 # Exclude /server-status from the catch-all rewrite so mod_status is reachable.
 COPY apache/short-url.conf /etc/apache2/conf-available/short-url.conf
+COPY apache/mpm-tuning.conf /etc/apache2/conf-enabled/mpm-tuning.conf
 
 # Run the schema update on startup before handing off to Apache.
 RUN chmod +x /var/www/html/docker-entrypoint.sh
