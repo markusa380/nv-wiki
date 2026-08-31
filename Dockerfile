@@ -25,6 +25,15 @@ COPY mediawiki /var/www/html
 COPY apache/short-url.conf /etc/apache2/conf-available/short-url.conf
 COPY apache/mpm-tuning.conf /etc/apache2/conf-enabled/mpm-tuning.conf
 
+# Samples aggregate resource usage for Special:ServerStats.
+COPY apache/stats-sampler.sh /usr/local/bin/stats-sampler.sh
+RUN chmod +x /usr/local/bin/stats-sampler.sh
+
+# Deliberately outside /var/www/html: anything in the document root is
+# fetchable, and a direct request to a PHP file there returns a fatal error
+# that discloses absolute paths.
+COPY local-extensions /var/www/local-extensions
+
 # Run the schema update on startup before handing off to Apache.
 RUN chmod +x /var/www/html/docker-entrypoint.sh
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]

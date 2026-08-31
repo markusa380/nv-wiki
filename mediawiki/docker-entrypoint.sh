@@ -14,5 +14,11 @@ done
 echo "Running MediaWiki schema update..."
 php maintenance/run.php update --quick
 
+# Sample resource usage for Special:ServerStats. Runs here rather than as a
+# sidecar because the cgroup files describe this container and mod_status is
+# restricted to Require local.
+echo "Starting stats sampler..."
+/usr/local/bin/stats-sampler.sh &
+
 # Hand off to the image's original entrypoint (which runs CMD, apache2-foreground).
 exec docker-php-entrypoint "$@"

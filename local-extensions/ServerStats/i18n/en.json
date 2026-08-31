@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Night Vision Wiki"
+		]
+	},
+	"serverstats": "Server statistics",
+	"serverstats-desc": "Publishes aggregate CPU, memory and worker statistics for the wiki server.",
+	"serverstats-summary": "Resource usage for the server hosting this wiki, sampled once a minute over the last 24 hours.",
+	"serverstats-cpu-title": "CPU usage",
+	"serverstats-cpu-subtitle": "Cores used, against a limit of $1.",
+	"serverstats-memory-title": "Memory usage",
+	"serverstats-memory-subtitle": "Megabytes resident, against a limit of $1 MB.",
+	"serverstats-workers-title": "Apache workers",
+	"serverstats-workers-subtitle": "Busy and idle workers, stacked as the whole pool.",
+	"serverstats-workers-busy": "Busy workers",
+	"serverstats-workers-idle": "Idle workers",
+	"serverstats-updated": "Last sample: $1 UTC. Samples are taken once a minute.",
+	"serverstats-nodata": "No samples have been recorded yet. Statistics appear once the sampler has run for a few minutes.",
+	"serverstats-gap": "Gaps in the lines are server restarts, where the counters reset."
+}

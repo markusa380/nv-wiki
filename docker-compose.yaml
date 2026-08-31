@@ -18,6 +18,9 @@ services:
       # Does not contain important data,
       # used by MediaWiki to keep track of database schema upgrades.
       - smw-config:/data/smw-config
+      # Resource samples for Special:ServerStats. A volume so the graphs
+      # survive redeploys instead of resetting on every image update.
+      - stats:/data/stats
     secrets:
       - wiki-password
       - aws-credentials
@@ -65,6 +68,7 @@ services:
 volumes:
   db:
   smw-config:
+  stats:
 
 networks:
   internal:

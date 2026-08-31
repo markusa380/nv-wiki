@@ -1,0 +1,34 @@
+{
+	"name": "ServerStats",
+	"version": "1.0.0",
+	"author": [
+		"Night Vision Wiki"
+	],
+	"descriptionmsg": "serverstats-desc",
+	"license-name": "MIT",
+	"type": "specialpage",
+	"requires": {
+		"MediaWiki": ">= 1.43.0"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\ServerStats\\": "includes/"
+	},
+	"SpecialPages": {
+		"ServerStats": "MediaWiki\\Extension\\ServerStats\\SpecialServerStats"
+	},
+	"MessagesDirs": {
+		"ServerStats": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"ServerStatsAlias": "ServerStats.alias.php"
+	},
+	"config": {
+		"ServerStatsFile": {
+			"description": "Path to the CSV ring buffer written by stats-sampler.sh.",
+			"value": "/data/stats/samples.csv"
+		}
+	},
+	"manifest_version": 2
+}

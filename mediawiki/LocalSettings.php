@@ -242,6 +242,11 @@ $wgDiscordGuildId = 808018607086108703; // you can copy this within Discord app 
 $wgDiscordApprovedRoles = ['contributor']; // users only with the specified roles will be able to login
 $wgDiscordAllowAllUsers = true;
 
+# Aggregate resource statistics at Special:ServerStats, fed by the CSV ring
+# buffer that stats-sampler.sh writes. Kept outside $IP so the source is not
+# web-reachable, and outside extensions/, which composer manages.
+wfLoadExtension( 'ServerStats', '/var/www/local-extensions/ServerStats/extension.json' );
+
 $wgGroupPermissions['*']['edit'] = false;
 $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['autocreateaccount'] = true; 
