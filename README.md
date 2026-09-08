@@ -1,10 +1,14 @@
 # Night Vision Wiki Docker Stack
 
-* Run `./build.sh` to build a new version of the mediawiki image.
-* Run `./deploy.sh` to deploy/update the entire stack.
-* Run `./update.sh` to update the mediawiki service to the latest image.
-* Run `./db-backup/build.sh` to build a new version of the database backup image.
-* Run `./db-backup/update.sh` to update the database backup service to the latest image.
+* Run `./deploy.sh` to build every image and bring the whole stack up to date.
+  This is the only command needed for a normal deploy. It also restarts the
+  database backup service, which takes a backup immediately.
+* Run `./build.sh` or `./db-backup/build.sh` to build a single image without
+  deploying.
+
+`docker stack deploy` on its own does not roll out image changes: the compose
+file pins images by tag and there is no registry digest to compare, so running
+tasks stay on the old image. `deploy.sh` forces the update afterwards.
 
 ## Prerequisites
 
