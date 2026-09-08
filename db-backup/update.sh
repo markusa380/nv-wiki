@@ -1,1 +1,0 @@
-docker service update --force $(docker stack services wiki --filter name=wiki_database-backup --quiet)
