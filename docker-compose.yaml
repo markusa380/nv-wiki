@@ -43,6 +43,43 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+  # MediaWiki job queue. Separate container: SMW maintenance jobs only do work
+  # in command-line mode, and jobs get a memory limit of their own.
+  jobrunner:
+    image: nv-wiki
+    entrypoint: ["/usr/local/bin/jobrunner.sh"]
+    command: []
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+      restart_policy:
+        condition: any
+    networks:
+      - internal
+    depends_on:
+      - database
+    volumes:
+      # Shared with mediawiki: SMW store setup marker.
+      - smw-config:/data/smw-config
+    secrets:
+      # LocalSettings.php reads all of these at parse time.
+      - wiki-password
+      - aws-credentials
+      - discord-auth-client-secret
+      - discord-auth-bot-token
+      - wg-secret
+    healthcheck:
+      # jobrunner.sh touches the heartbeat per batch. Without this a dead
+      # runner is silent and the queue grows unnoticed.
+      # $$ escapes compose interpolation. Missing file yields no output, which
+      # fails the test.
+      test: ["CMD-SHELL", "test -n \"$$(find /tmp/jobrunner-heartbeat -newermt '-5 minutes' 2>/dev/null)\""]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 2m
   database:
     image: mariadb:11.8
     volumes:

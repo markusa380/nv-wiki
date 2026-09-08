@@ -29,6 +29,10 @@ COPY apache/mpm-tuning.conf /etc/apache2/conf-enabled/mpm-tuning.conf
 COPY apache/stats-sampler.sh /usr/local/bin/stats-sampler.sh
 RUN chmod +x /usr/local/bin/stats-sampler.sh
 
+# Entrypoint for the jobrunner service, which uses this image.
+COPY jobrunner/jobrunner.sh /usr/local/bin/jobrunner.sh
+RUN chmod +x /usr/local/bin/jobrunner.sh
+
 # Deliberately outside /var/www/html: anything in the document root is
 # fetchable, and a direct request to a PHP file there returns a fatal error
 # that discloses absolute paths.

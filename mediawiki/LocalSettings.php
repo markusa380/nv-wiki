@@ -247,6 +247,12 @@ $wgDiscordAllowAllUsers = true;
 # web-reachable, and outside extensions/, which composer manages.
 wfLoadExtension( 'ServerStats', '/var/www/local-extensions/ServerStats/extension.json' );
 
+# Jobs run in the jobrunner service. The default of 1 runs one job per web
+# request, inside an Apache worker. SMW maintenance jobs re-queue themselves
+# outside command-line mode, so that never completed.
+# The queue does not drain while the jobrunner is down.
+$wgJobRunRate = 0;
+
 $wgGroupPermissions['*']['edit'] = false;
 $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['autocreateaccount'] = true; 
