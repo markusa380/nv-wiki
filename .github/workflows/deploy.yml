@@ -1,0 +1,30 @@
+# Builds and deploys on every push to main. The steps are in
+# markusa380/homelab-ci; this file only says what to build.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  mediawiki:
+    uses: markusa380/homelab-ci/.github/workflows/deploy-image.yml@main
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      image: nv-wiki
+    secrets:
+      homelab-apps-deploy-key: ${{ secrets.HOMELAB_APPS_DEPLOY_KEY }}
+
+  db-backup:
+    uses: markusa380/homelab-ci/.github/workflows/deploy-image.yml@main
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      image: nv-wiki-db-backup
+      context: db-backup
+    secrets:
+      homelab-apps-deploy-key: ${{ secrets.HOMELAB_APPS_DEPLOY_KEY }}
