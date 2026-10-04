@@ -13,7 +13,7 @@ IDLE="${JOBRUNNER_IDLE:-10}"
 MEM="${JOBRUNNER_MEMORY_LIMIT:-256M}"
 HEARTBEAT="${JOBRUNNER_HEARTBEAT:-/tmp/jobrunner-heartbeat}"
 
-# Swarm depends_on does not wait for readiness.
+# The database may not accept connections yet when this container starts.
 echo "Waiting for database..."
 until php maintenance/run.php sql --query "SELECT 1" >/dev/null 2>&1; do
   sleep 2
@@ -33,8 +33,8 @@ while true; do
     echo "warning: runJobs exited non-zero, continuing"
   fi
 
-  # Health check reads this mtime. Stale means wedged, and Swarm replaces the
-  # task.
+  # The liveness probe reads this mtime. Stale means wedged, and Kubernetes
+  # restarts the container.
   touch "$HEARTBEAT"
 
   sleep "$IDLE"

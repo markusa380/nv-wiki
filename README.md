@@ -1,24 +1,26 @@
-# Night Vision Wiki Docker Stack
+# Night Vision Wiki
 
-* Run `./deploy.sh` to build every image and bring the whole stack up to date.
-  This is the only command needed for a normal deploy. It also restarts the
-  database backup service, which takes a backup immediately.
-* Run `./build.sh` or `./db-backup/build.sh` to build a single image without
-  deploying.
+MediaWiki for nv-intl.com, with a job runner and a daily database backup to
+S3. Two images are built from this repository:
 
-`docker stack deploy` on its own does not roll out image changes: the compose
-file pins images by tag and there is no registry digest to compare, so running
-tasks stay on the old image. `deploy.sh` forces the update afterwards.
+* `nv-wiki` (`Dockerfile`): MediaWiki with its extensions. It also runs the
+  job runner, with `jobrunner/jobrunner.sh` as entrypoint.
+* `nv-wiki-db-backup` (`db-backup/`): dumps the database and uploads it to S3.
 
-## Prerequisites
+## Deployment
 
-* Connected to a Docker Daemon
-* Deployed traefik reverse proxy
-    * in `servernet` Docker swarm network
-    * with `mediawiki` router
-        * with `websecure` entrypoint on port 443
-        * with `myresolver` certificate resolver
-* All secrets configured (see [docker-compose.yaml](./docker-compose.yaml)).
+Every push to `main` deploys both images to the homelab:
+`.github/workflows/deploy.yml` builds them and hands them to the shared
+workflow in [homelab-ci](https://github.com/markusa380/homelab-ci), which
+pushes them to the homelab's registry and rolls them out. On startup,
+`mediawiki/docker-entrypoint.sh` runs the schema update.
+
+The production configuration (MariaDB, secrets, resource limits, the route for
+`nv-intl.com` and the backup schedule) is in the private homelab-apps
+repository, `modules/apps/wiki.nix`. `LocalSettings.php` reads the secrets from
+files in `/run/secrets`.
+
+To build an image locally, run `./build.sh` or `./db-backup/build.sh`.
 
 ## Debugging
 
@@ -27,14 +29,14 @@ This is not a full list of debugging tools, it needs further elaboration.
 ### Apache status
 
 ```sh
-docker exec $(docker ps --filter name=wiki_mediawiki -q) curl -s 127.0.0.1:80/server-status
+kubectl -n wiki exec deploy/mediawiki -- curl -s 127.0.0.1:80/server-status
 ```
 
 `mod_status` is restricted to `Require local`, so it is only reachable from
 inside the container. Append `?auto` for a machine-readable summary.
 
-Useful when the wiki is unreachable while Docker still reports the container
-as running.
+Useful when the wiki is unreachable while Kubernetes still reports the pod as
+running.
 
 `BusyWorkers` and `IdleWorkers` show whether the worker pool is exhausted. The
 per-worker table's `SS` column gives seconds spent in the current request; for

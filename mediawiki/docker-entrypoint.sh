@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Wait for the database to accept connections. In Swarm, depends_on does not
-# wait for readiness, so a fresh deploy can race the database container.
+# Wait for the database to accept connections. It may still be starting, e.g.
+# on a fresh deploy or after both pods restarted.
 echo "Waiting for database..."
 until php maintenance/run.php sql --query "SELECT 1" >/dev/null 2>&1; do
   sleep 2
