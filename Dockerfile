@@ -25,6 +25,9 @@ COPY mediawiki /var/www/html
 COPY apache/short-url.conf /etc/apache2/conf-available/short-url.conf
 COPY apache/mpm-tuning.conf /etc/apache2/conf-enabled/mpm-tuning.conf
 
+# zz- so that it loads after the image's own ini files.
+COPY php/errors.ini /usr/local/etc/php/conf.d/zz-errors.ini
+
 # Samples aggregate resource usage for Special:ServerStats.
 COPY apache/stats-sampler.sh /usr/local/bin/stats-sampler.sh
 RUN chmod +x /usr/local/bin/stats-sampler.sh

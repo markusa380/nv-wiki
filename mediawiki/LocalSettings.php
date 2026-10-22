@@ -1,9 +1,7 @@
 <?php
-ini_set( 'display_errors', 1 );
-ini_set( 'display_startup_errors', 1 );
-ini_set( 'log_errors', 'On' );
+# PHP error display and logging are set in php/errors.ini, which applies
+# before PHP parses a request. Settings here would apply too late.
 
-error_reporting( -1 );
 # https://www.mediawiki.org/wiki/Manual:Configuration_settings
 
 # Protect against web entry
