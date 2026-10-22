@@ -25,6 +25,8 @@ COPY mediawiki /var/www/html
 COPY apache/short-url.conf /etc/apache2/conf-available/short-url.conf
 COPY apache/mpm-tuning.conf /etc/apache2/conf-enabled/mpm-tuning.conf
 COPY apache/no-php-in-writable-dirs.conf /etc/apache2/conf-enabled/no-php-in-writable-dirs.conf
+COPY apache/remote-ip.conf /etc/apache2/conf-enabled/remote-ip.conf
+RUN a2enmod remoteip
 
 # zz- so that it loads after the image's own ini files.
 COPY php/errors.ini /usr/local/etc/php/conf.d/zz-errors.ini
