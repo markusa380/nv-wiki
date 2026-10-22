@@ -11,7 +11,7 @@ TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 FILENAME="${MYSQL_DATABASE}_$TIMESTAMP.sql.gz"
 DUMP_FILE="/tmp/${FILENAME}"
 
-mysqldump --single-transaction \
+mariadb-dump --single-transaction \
     -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" \
     "$MYSQL_DATABASE" \
     | gzip > "$DUMP_FILE"

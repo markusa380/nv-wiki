@@ -1,9 +1,10 @@
-# Use an official lightweight image with MySQL client and AWS CLI
-FROM amazonlinux:2
+# Debian, because Amazon Linux 2 is end of life. Trixie's mariadb-client is
+# 11.8, the same version as the server.
+FROM debian:trixie-slim
 
-RUN yum update -y && \
-    yum install -y mysql awscli && \
-    yum clean all
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends mariadb-client awscli ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY backup_and_upload.sh /usr/local/bin/backup_and_upload.sh
 RUN chmod +x /usr/local/bin/backup_and_upload.sh
