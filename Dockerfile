@@ -24,6 +24,7 @@ COPY mediawiki /var/www/html
 # Exclude /server-status from the catch-all rewrite so mod_status is reachable.
 COPY apache/short-url.conf /etc/apache2/conf-available/short-url.conf
 COPY apache/mpm-tuning.conf /etc/apache2/conf-enabled/mpm-tuning.conf
+COPY apache/no-php-in-writable-dirs.conf /etc/apache2/conf-enabled/no-php-in-writable-dirs.conf
 
 # zz- so that it loads after the image's own ini files.
 COPY php/errors.ini /usr/local/etc/php/conf.d/zz-errors.ini
@@ -43,5 +44,13 @@ COPY local-extensions /var/www/local-extensions
 
 # Run the schema update on startup before handing off to Apache.
 RUN chmod +x /var/www/html/docker-entrypoint.sh
+
+# The base image gives the web root to www-data with mode 1777, so PHP could
+# change the wiki's own code. Root owns it now. www-data can write only to
+# images/ and cache/, where PHP doesn't run (no-php-in-writable-dirs.conf).
+RUN chown -R root:root /var/www/html && \
+  chmod -R u=rwX,go=rX /var/www/html && \
+  chmod 755 /var/www/html && \
+  chown www-data:www-data /var/www/html/images /var/www/html/cache
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
