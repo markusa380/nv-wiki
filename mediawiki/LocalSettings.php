@@ -63,8 +63,15 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $wgSharedTables[] = "actor";
 
 ## Shared memory settings
-$wgMainCacheType = CACHE_NONE;
-$wgMemCachedServers = [];
+# CACHE_ACCEL is APCu, an in-memory cache that the Apache workers of this
+# container share. It caches rendered old revisions and diffs. It is lost on
+# restart, so caches that must persist stay in the database.
+# Note: the jobrunner (CLI, separate pod) cannot see or purge APCu, so caches
+# that must stay consistent with jobs also stay in the database.
+# See for configuration: php/apcu.ini
+$wgMainCacheType = CACHE_ACCEL;
+$wgParserCacheType = CACHE_DB;
+$wgSessionCacheType = CACHE_DB;
 
 ## To enable image uploads, make sure the 'images' directory
 ## is writable, then set this to true:
@@ -160,6 +167,8 @@ wfLoadExtension( 'PdfHandler' );
 wfLoadExtension( 'Nuke' );
 
 $smwgConfigFileDir = "/data/smw-config";
+# SMW data changes in the jobrunner; see the shared memory settings above.
+$smwgMainCacheType = CACHE_DB;
 
 $awsCredentialsFileContent = file_get_contents( '/run/secrets/aws-credentials' );
 

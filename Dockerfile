@@ -30,6 +30,7 @@ RUN a2enmod remoteip
 
 # zz- so that it loads after the image's own ini files.
 COPY php/errors.ini /usr/local/etc/php/conf.d/zz-errors.ini
+COPY php/apcu.ini /usr/local/etc/php/conf.d/zz-apcu.ini
 
 # Samples aggregate resource usage for Special:ServerStats.
 COPY apache/stats-sampler.sh /usr/local/bin/stats-sampler.sh
